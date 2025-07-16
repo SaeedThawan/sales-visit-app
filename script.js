@@ -9,7 +9,6 @@ async function loadJSON(url) {
 }
 
 async function initForm() {
-  // تحميل جميع الملفات دفعة واحدة
   const [customers, reps, visitTypes, products, purposes, outcomes] = await Promise.all([
     loadJSON('data/customers_main.json'),
     loadJSON('data/sales_representatives.json'),
@@ -63,7 +62,7 @@ async function initForm() {
     visitType.appendChild(option);
   });
 
-  // تعبئة الغرض من الزيارة
+  // تعبئة الغرض
   const purpose = document.getElementById('purpose');
   purposes.forEach(p => {
     let option = document.createElement('option');
@@ -84,7 +83,7 @@ async function initForm() {
   // تعبئة التصنيفات
   const category = document.getElementById('category');
   const uniqueCategories = [...new Set(products.map(p => p.Category))];
-  uniqueCategories.push('عام');
+  uniqueCategories.push('عام'); // لإظهار الكل
   uniqueCategories.forEach(cat => {
     let option = document.createElement('option');
     option.value = cat;
@@ -94,7 +93,7 @@ async function initForm() {
 
   category.addEventListener('change', () => {
     const selected = category.value;
-    let filtered = selected === 'عام' ? productsData : productsData.filter(p => p.Category === selected);
+    const filtered = selected === 'عام' ? productsData : productsData.filter(p => p.Category === selected);
     displayProducts(filtered);
   });
 }
@@ -130,7 +129,7 @@ document.getElementById('visit-form').addEventListener('submit', async function 
     Unavailable_Products_Names: []
   };
 
-  // المنتجات المختارة
+  // تجميع حالة المنتجات
   const radios = document.querySelectorAll('#products-section input[type="radio"]');
   radios.forEach(radio => {
     if (radio.checked) {
@@ -140,15 +139,18 @@ document.getElementById('visit-form').addEventListener('submit', async function 
     }
   });
 
-  const res = await fetch(API_BASE, {
-    method: 'POST',
-    body: JSON.stringify(formData),
-    headers: { "Content-Type": "application/json" }
-  });
-
-  const result = await res.json();
-  document.getElementById('status').textContent = result.message || '✅ تم الإرسال بنجاح';
-  this.reset();
+  try {
+    const res = await fetch(API_BASE, {
+      method: 'POST',
+      body: JSON.stringify(formData),
+      headers: { "Content-Type": "application/json" }
+    });
+    const result = await res.json();
+    document.getElementById('status').textContent = result.message || '✅ تم الإرسال بنجاح';
+    this.reset();
+  } catch (error) {
+    document.getElementById('status').textContent = `❌ حدث خطأ أثناء الإرسال: ${error.message}`;
+  }
 });
 
 initForm();
