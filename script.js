@@ -21,88 +21,58 @@ async function initForm() {
   customersData = customers;
   productsData = products;
 
-  // تعبئة المندوبين
-  const salesRep = document.getElementById('salesRep');
-  reps.forEach(rep => {
-    let option = document.createElement('option');
-    option.value = rep.Sales_Rep_Name_AR;
-    option.textContent = rep.Sales_Rep_Name_AR;
-    salesRep.appendChild(option);
+  // تعبئة الحقول المنسدلة
+  fillSelect('salesRep', reps, 'Sales_Rep_Name_AR');
+  fillSelect('customer', customers, 'Customer_Name_AR');
+  fillSelect('visitType', visitTypes, 'Visit_Type_Name_AR');
+  fillSelect('purpose', purposes);
+  fillSelect('outcome', outcomes);
+
+  // تعبئة البحث عن العميل
+  const customerSearch = document.getElementById('customerSearch');
+  customerSearch.addEventListener('input', () => {
+    const searchTerm = customerSearch.value.trim().toLowerCase();
+    const filtered = customersData.filter(c => c.Customer_Name_AR.toLowerCase().includes(searchTerm));
+    fillSelect('customer', filtered, 'Customer_Name_AR');
   });
 
-  // تعبئة العملاء
-  const customerSelect = document.getElementById('customer');
-  customers.forEach(cust => {
-    let option = document.createElement('option');
-    option.value = cust.Customer_Name_AR;
-    option.textContent = cust.Customer_Name_AR;
-    customerSelect.appendChild(option);
-  });
-
-  // البحث داخل العملاء
-  document.getElementById('customerSearch').addEventListener('input', function () {
-    const searchTerm = this.value.trim().toLowerCase();
-    customerSelect.innerHTML = "";
-    customers
-      .filter(c => c.Customer_Name_AR.toLowerCase().includes(searchTerm))
-      .forEach(cust => {
-        let option = document.createElement('option');
-        option.value = cust.Customer_Name_AR;
-        option.textContent = cust.Customer_Name_AR;
-        customerSelect.appendChild(option);
-      });
-  });
-
-  // تعبئة أنواع الزيارة
-  const visitType = document.getElementById('visitType');
-  visitTypes.forEach(type => {
-    let option = document.createElement('option');
-    option.value = type.Visit_Type_Name_AR;
-    option.textContent = type.Visit_Type_Name_AR;
-    visitType.appendChild(option);
-  });
-
-  // تعبئة الغرض
-  const purpose = document.getElementById('purpose');
-  purposes.forEach(p => {
-    let option = document.createElement('option');
-    option.value = p;
-    option.textContent = p;
-    purpose.appendChild(option);
-  });
-
-  // تعبئة النتائج
-  const outcome = document.getElementById('outcome');
-  outcomes.forEach(out => {
-    let option = document.createElement('option');
-    option.value = out;
-    option.textContent = out;
-    outcome.appendChild(option);
-  });
-
-  // تعبئة التصنيفات
-  const category = document.getElementById('category');
+  // تعبئة التصنيفات كـ checkboxes
+  const categoryOptions = document.getElementById('categoryOptions');
   const uniqueCategories = [...new Set(products.map(p => p.Category))];
-  uniqueCategories.push('عام'); // لإظهار الكل
   uniqueCategories.forEach(cat => {
-    let option = document.createElement('option');
-    option.value = cat;
-    option.textContent = cat;
-    category.appendChild(option);
+    const box = document.createElement('label');
+    box.innerHTML = `<input type="checkbox" value="${cat}" class="categoryBox"> ${cat}`;
+    categoryOptions.appendChild(box);
   });
 
-  category.addEventListener('change', () => {
-    const selected = category.value;
-    const filtered = selected === 'عام' ? productsData : productsData.filter(p => p.Category === selected);
+  // عند تغيير التصنيفات
+  categoryOptions.addEventListener('change', () => {
+    const selectedCats = Array.from(document.querySelectorAll('.categoryBox:checked')).map(cb => cb.value);
+    const filtered = selectedCats.length
+      ? productsData.filter(p => selectedCats.includes(p.Category))
+      : [];
     displayProducts(filtered);
+  });
+}
+
+function fillSelect(id, list, key) {
+  const select = document.getElementById(id);
+  select.innerHTML = "";
+  list.forEach(item => {
+    const val = key ? item[key] : item;
+    let option = document.createElement('option');
+    option.value = val;
+    option.textContent = val;
+    select.appendChild(option);
   });
 }
 
 function displayProducts(products) {
   const section = document.getElementById('products-section');
-  section.innerHTML = "<h4>الأصناف تحت التصنيف المختار:</h4>";
+  section.innerHTML = "<h4>المنتجات حسب التصنيفات المختارة:</h4>";
+
   products.forEach(prod => {
-    let div = document.createElement('div');
+    const div = document.createElement('div');
     div.className = 'product-item';
     div.innerHTML = `
       <span>${prod.Product_Name_AR}</span>
@@ -116,41 +86,8 @@ function displayProducts(products) {
 document.getElementById('visit-form').addEventListener('submit', async function (e) {
   e.preventDefault();
 
+  const visibleRadios = document.querySelectorAll('#products-section input[type="radio"]');
+  const productNames = [...new Set(Array.from(visibleRadios).map(r => r.name.replace('product-', '')))];
   const formData = {
     Visit_Type_Name_AR: document.getElementById('visitType').value,
-    Entry_User_Name: document.getElementById('entryUser').value,
-    Sales_Rep_Name_AR: document.getElementById('salesRep').value,
-    Customer_Name_AR: document.getElementById('customer').value,
-    Product_Name_AR: document.getElementById('mainProduct').value || '',
-    Visit_Purpose: document.getElementById('purpose').value,
-    Visit_Outcome: document.getElementById('outcome').value,
-    Notes: document.getElementById('notes').value || '',
-    Available_Products_Names: [],
-    Unavailable_Products_Names: []
-  };
-
-  // تجميع حالة المنتجات
-  const radios = document.querySelectorAll('#products-section input[type="radio"]');
-  radios.forEach(radio => {
-    if (radio.checked) {
-      const name = radio.name.replace('product-', '');
-      if (radio.value === 'متوفر') formData.Available_Products_Names.push(name);
-      else formData.Unavailable_Products_Names.push(name);
-    }
-  });
-
-  try {
-    const res = await fetch(API_BASE, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: { "Content-Type": "application/json" }
-    });
-    const result = await res.json();
-    document.getElementById('status').textContent = result.message || '✅ تم الإرسال بنجاح';
-    this.reset();
-  } catch (error) {
-    document.getElementById('status').textContent = `❌ حدث خطأ أثناء الإرسال: ${error.message}`;
-  }
-});
-
-initForm();
+    Entry_User
