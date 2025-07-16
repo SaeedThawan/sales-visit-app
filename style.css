@@ -1,17 +1,26 @@
 :root {
-  --color-light-bg: #f2f4f7;
-  --color-light-text: #333;
-  --color-light-accent: #005c97;
+  /* ألوان الوضع النهاري */
+  --bg-light: #f9f9fb;
+  --text-light: #222;
+  --accent-light: #007bff;
+  --card-light: #ffffff;
 
-  --color-dark-bg: #1f1f1f;
-  --color-dark-text: #eee;
-  --color-dark-accent: #ffa726;
+  /* ألوان الوضع الليلي */
+  --bg-dark: #1e1e1e;
+  --text-dark: #eee;
+  --accent-dark: #ffa726;
+  --card-dark: #2c2c2c;
+
+  /* عناصر مشتركة */
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --font-main: 'Segoe UI', sans-serif;
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--color-light-bg);
-  color: var(--color-light-text);
+  font-family: var(--font-main);
+  background-color: var(--bg-light);
+  color: var(--text-light);
   transition: all 0.3s ease;
   margin: 0;
   padding: 20px;
@@ -20,15 +29,16 @@ body {
 .container {
   max-width: 800px;
   margin: auto;
-  background-color: #fff;
+  background-color: var(--card-light);
   padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
 h2 {
   text-align: center;
-  color: var(--color-light-accent);
+  color: var(--accent-light);
+  margin-bottom: 20px;
 }
 
 label {
@@ -42,63 +52,85 @@ select, input, textarea {
   padding: 10px;
   margin-top: 6px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: var(--radius);
   font-size: 15px;
 }
 
 button {
   margin-top: 20px;
   padding: 12px;
-  background-color: var(--color-light-accent);
+  background-color: var(--accent-light);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius);
   cursor: pointer;
   font-size: 16px;
 }
 
 button:hover {
-  background-color: #003d66;
+  background-color: #0056b3;
 }
 
 .product-item {
-  background: #f9f9f9;
-  padding: 8px;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: var(--radius);
   margin: 8px 0;
-  border-radius: 4px;
 }
 
+#categoryOptions label {
+  display: inline-block;
+  margin: 6px 10px 0 0;
+  background-color: #efefef;
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+#status {
+  margin-top: 20px;
+  font-weight: bold;
+  color: green;
+}
+
+/* زر الوضع الليلي */
 #modeToggle {
   position: fixed;
-  top: 20px;
-  right: 30px;
-  cursor: pointer;
-  font-size: 14px;
-  background-color: var(--color-light-accent);
+  top: 15px;
+  right: 25px;
+  background-color: var(--accent-light);
   color: white;
   border: none;
   padding: 8px 12px;
-  border-radius: 8px;
-  z-index: 10;
+  border-radius: var(--radius);
+  cursor: pointer;
+  z-index: 99;
 }
 
+/* الوضع الليلي */
 body.dark-mode {
-  background-color: var(--color-dark-bg);
-  color: var(--color-dark-text);
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
 }
 
 body.dark-mode .container {
-  background-color: #2c2c2c;
+  background-color: var(--card-dark);
 }
 
 body.dark-mode h2 {
-  color: var(--color-dark-accent);
+  color: var(--accent-dark);
 }
 
-body.dark-mode button {
-  background-color: var(--color-dark-accent);
+body.dark-mode button,
+body.dark-mode #modeToggle {
+  background-color: var(--accent-dark);
 }
 
 body.dark-mode button:hover {
   background-color: #cc7a00;
+}
+
+body.dark-mode #categoryOptions label {
+  background-color: #333;
+  color: white;
 }
