@@ -1,4 +1,4 @@
-const API_BASE = 'https://script.google.com/macros/s/AKfycbzHjxC1yPIr7oKSYiNCkHKmSlvNhXGfaUADsDag4jCl9boNicwPdJSjusoy9IWR3wzw/exec';
+const API_BASE = 'https://script.google.com/macros/s/AKfycbzlhp0wlQdzUiXj7rYhdBsJbZz9VuJgbQwFaZvwdrwsCm8zx4Q8KJia1UNoRge3yq98/exec';
 
 let customersData = [];
 let productsData = [];
