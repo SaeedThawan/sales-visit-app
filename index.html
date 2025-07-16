@@ -1,53 +1,59 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تسجيل زيارة المندوب</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل زيارة مندوب</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h2>تسجيل زيارة عميل</h2>
-
+    <h2>نموذج تسجيل زيارة</h2>
     <form id="visit-form">
-
-      <!-- مندوب المبيعات -->
-      <label for="salesRep">المندوب:</label>
-      <select id="salesRep" required></select>
-
-      <!-- العميل -->
-      <label for="customer">العميل:</label>
-      <select id="customer" required></select>
-
-      <!-- التاريخ والوقت -->
-      <label for="date">تاريخ الزيارة:</label>
-      <input type="date" id="date" required />
-      <label for="time">وقت الزيارة:</label>
-      <input type="time" id="time" required />
-
-      <!-- الغرض والنتائج -->
-      <label for="purpose">الغرض:</label>
-      <input type="text" id="purpose" />
-      <label for="outcome">النتائج:</label>
-      <input type="text" id="outcome" />
-      <label for="notes">ملاحظات:</label>
-      <textarea id="notes"></textarea>
-
-      <!-- المنتج الرئيسي -->
-      <label for="mainProduct">المنتج الرئيسي:</label>
-      <input type="text" id="mainProduct" />
-
-      <!-- تصنيف المنتجات -->
-      <label for="category">تصنيف المنتجات:</label>
-      <select id="category" required></select>
-
-      <!-- المنتجات حسب التصنيف -->
-      <div id="products-section"></div>
 
       <!-- نوع الزيارة -->
       <label for="visitType">نوع الزيارة:</label>
       <select id="visitType" required></select>
+
+      <!-- الموظف المدخل -->
+      <label for="entryUser">اسم الموظف المدخل:</label>
+      <input type="text" id="entryUser" placeholder="اكتب اسمك" required />
+
+      <!-- اسم المندوب -->
+      <label for="salesRep">اسم المندوب:</label>
+      <select id="salesRep" required></select>
+
+      <!-- البحث عن العميل -->
+      <label for="customerSearch">ابحث عن العميل:</label>
+      <input type="text" id="customerSearch" placeholder="اكتب جزء من الاسم">
+
+      <label for="customer">اسم العميل:</label>
+      <select id="customer" required></select>
+
+      <!-- تصنيف المنتجات -->
+      <label for="category">تصنيف المنتجات:</label>
+      <select id="category" required>
+        <option value="">اختر التصنيف</option>
+      </select>
+
+      <!-- المنتجات حسب التصنيف -->
+      <div id="products-section"></div>
+
+      <!-- المنتج الرئيسي -->
+      <label for="mainProduct">المنتج الرئيسي (اختياري / قيد التطوير):</label>
+      <input type="text" id="mainProduct" placeholder="اكتب اسم المنتج إن وُجد..." />
+
+      <!-- الغرض من الزيارة -->
+      <label for="purpose">الغرض من الزيارة:</label>
+      <select id="purpose" required></select>
+
+      <!-- النتائج -->
+      <label for="outcome">نتيجة الزيارة:</label>
+      <select id="outcome" required></select>
+
+      <!-- الملاحظات -->
+      <label for="notes">ملاحظات (اختياري):</label>
+      <textarea id="notes" placeholder="أي ملاحظات إضافية..."></textarea>
 
       <button type="submit">إرسال الزيارة</button>
     </form>
