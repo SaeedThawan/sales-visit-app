@@ -2,12 +2,12 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>تسجيل زيارة مندوب</title>
+  <title>تسجيل زيارة المندوب</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h2>تسجيل زيارة مندوب المبيعات</h2>
+    <h2>تسجيل زيارة المندوب</h2>
     <form id="visitForm">
 
       <label>اسم الموظف المدخل:</label>
@@ -44,16 +44,16 @@
       <label>تاريخ الزيارة القادمة (اختياري):</label>
       <input type="date" id="Next_Visit_Date">
 
-      <label>تصنيف المنتجات:</label>
-      <select id="Product_Category">
-        <option value="">-- اختر التصنيف --</option>
-      </select>
-
-      <div id="productsContainer" class="products-section">
-        <!-- المنتجات تظهر هنا تلقائيًا -->
+      <label>تصنيفات المنتجات:</label>
+      <div id="categorySelection">
+        <!-- التصنيفات تظهر هنا كمربعات اختيار -->
       </div>
 
-      <label>اسم المنتج الرئيسي (اختياري):</label>
+      <div id="productsContainer" class="products-section">
+        <!-- المنتجات تظهر تلقائيًا حسب التصنيف -->
+      </div>
+
+      <label>المنتج الرئيسي (اختياري):</label>
       <input type="text" id="Product_Name_AR">
 
       <label>ملاحظات:</label>
