@@ -2,62 +2,67 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>نموذج زيارة مندوب</title>
+  <title>تسجيل زيارة مندوب</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <button id="modeToggle">الوضع الليلي 🌙</button>
-
   <div class="container">
-    <h2>نموذج تسجيل زيارة المندوب</h2>
-    <form id="visit-form">
+    <h2>تسجيل زيارة مندوب المبيعات</h2>
+    <form id="visitForm">
 
-      <label for="visitType">نوع الزيارة:</label>
-      <select id="visitType" required></select>
+      <label>اسم الموظف المدخل:</label>
+      <input type="text" id="Entry_User_Name" required>
 
-      <label for="entryUser">اسم الموظف الذي يسجل:</label>
-      <input type="text" id="entryUser" required>
-
-      <label for="salesRep">اسم المندوب:</label>
-      <select id="salesRep" required></select>
-
-      <label for="customerSearch">بحث عن العميل:</label>
-      <input type="text" id="customerSearch" placeholder="اكتب جزء من اسم العميل">
-
-      <label for="customer">اسم العميل:</label>
-      <select id="customer" required></select>
-
-      <label for="customerType">نوع العميل:</label>
-      <select id="customerType" required>
-        <option value="">اختر نوع العميل</option>
-        <option value="حلويات">حلويات</option>
-        <option value="غذائي">غذائي</option>
-        <option value="عام">عام</option>
+      <label>اسم المندوب:</label>
+      <select id="Sales_Rep_ID" required>
+        <option value="">-- اختر المندوب --</option>
       </select>
 
-      <label>التصنيفات المستهدفة:</label>
-      <div id="categoryOptions"></div>
+      <label>اسم العميل:</label>
+      <select id="Customer_ID" required>
+        <option value="">-- اختر العميل --</option>
+      </select>
 
-      <div id="products-section"></div>
+      <label>نوع العميل:</label>
+      <input type="text" id="Customer_Type" readonly>
 
-      <label for="mainProduct">المنتج الرئيسي (اختياري):</label>
-      <input type="text" id="mainProduct">
+      <label>نوع الزيارة:</label>
+      <select id="Visit_Type_ID" required>
+        <option value="">-- اختر نوع الزيارة --</option>
+      </select>
 
-      <label for="purpose">الغرض من الزيارة:</label>
-      <select id="purpose" required></select>
+      <label>الغرض من الزيارة:</label>
+      <select id="Visit_Purpose" required>
+        <option value="">-- اختر الغرض --</option>
+      </select>
 
-      <label for="outcome">نتيجة الزيارة:</label>
-      <select id="outcome" required></select>
+      <label>نتيجة الزيارة:</label>
+      <select id="Visit_Outcome" required>
+        <option value="">-- اختر النتيجة --</option>
+      </select>
 
-      <label for="notes">ملاحظات إضافية:</label>
-      <textarea id="notes" rows="3"></textarea>
+      <label>تاريخ الزيارة القادمة (اختياري):</label>
+      <input type="date" id="Next_Visit_Date">
+
+      <label>تصنيف المنتجات:</label>
+      <select id="Product_Category">
+        <option value="">-- اختر التصنيف --</option>
+      </select>
+
+      <div id="productsContainer" class="products-section">
+        <!-- المنتجات تظهر هنا تلقائيًا -->
+      </div>
+
+      <label>اسم المنتج الرئيسي (اختياري):</label>
+      <input type="text" id="Product_Name_AR">
+
+      <label>ملاحظات:</label>
+      <textarea id="Notes" rows="3"></textarea>
 
       <button type="submit">إرسال البيانات</button>
     </form>
 
-    <div id="status"></div>
+    <div id="status" class="status-message"></div>
   </div>
 
   <script src="script.js"></script>
