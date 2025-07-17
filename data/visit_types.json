@@ -1,6 +1,18 @@
 [
-  { "Visit_Type_Name_AR": "زيارة بيع" },
-  { "Visit_Type_Name_AR": "زيارة تحصيل" },
-  { "Visit_Type_Name_AR": "زيارة متابعة" },
-  { "Visit_Type_Name_AR": "زيارة مجاملة" }
+  {
+    "Visit_Type_ID": "TYPE001",
+    "Visit_Type_Name_AR": "زيارة بيع"
+  },
+  {
+    "Visit_Type_ID": "TYPE002",
+    "Visit_Type_Name_AR": "زيارة تحصيل"
+  },
+  {
+    "Visit_Type_ID": "TYPE003",
+    "Visit_Type_Name_AR": "زيارة متابعة"
+  },
+  {
+    "Visit_Type_ID": "TYPE004",
+    "Visit_Type_Name_AR": "زيارة مجاملة"
+  }
 ]

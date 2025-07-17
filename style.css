@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 850px;
   margin: auto;
   background: #fff;
   padding: 30px;
@@ -19,11 +19,12 @@ h2 {
   text-align: center;
   margin-bottom: 25px;
   color: #333;
+  font-size: 24px;
 }
 
 form label {
   display: block;
-  margin: 10px 0 5px;
+  margin: 12px 0 6px;
   color: #444;
   font-weight: bold;
 }
@@ -33,10 +34,11 @@ input[type="date"],
 select,
 textarea {
   width: 100%;
-  padding: 8px;
+  padding: 8px 12px;
   margin-bottom: 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 textarea {
@@ -52,7 +54,7 @@ button[type="submit"] {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 button[type="submit"]:hover {
@@ -60,11 +62,12 @@ button[type="submit"]:hover {
 }
 
 .status-message {
-  margin-top: 15px;
-  padding: 10px;
+  margin-top: 20px;
+  padding: 12px;
   border-radius: 6px;
   text-align: center;
   font-weight: bold;
+  font-size: 14px;
 }
 
 .status-message.success {
@@ -79,10 +82,12 @@ button[type="submit"]:hover {
   border: 1px solid #ef9a9a;
 }
 
+/* التصنيفات */
 #categorySelection div {
   margin-bottom: 8px;
 }
 
+/* مجموعات المنتجات */
 .product-group {
   margin-top: 20px;
   padding: 15px;
@@ -95,8 +100,10 @@ button[type="submit"]:hover {
   margin-top: 0;
   margin-bottom: 10px;
   color: #0078D4;
+  font-size: 18px;
 }
 
+/* منتج فردي */
 .product-item {
   display: flex;
   align-items: center;
@@ -109,6 +116,7 @@ button[type="submit"]:hover {
   flex: 1;
   font-weight: 500;
   color: #333;
+  font-size: 15px;
 }
 
 .product-item input[type="radio"] {

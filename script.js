@@ -1,8 +1,10 @@
+// إعدادات Google Sheets
 const SPREADSHEET_ID = '1AUWwYTxn5E3sLFb7OFCi36dcbso0NDjzrtH0jxbdduM';
 const SHEET_NAME = 'Visit_Logs';
 const API_KEY = 'AIzaSyCAYZecKVrOWGlyKoxLqdzkVav4F5vLGxo';
 
-const DATA_BASE = 'https://raw.githubusercontent.com/SaeedUser/sales-visit-app/main/data/';
+// روابط ملفات JSON من GitHub Pages
+const DATA_BASE = 'https://saeedthawan.github.io/sales-visit-app/data/';
 const JSON_FILES = {
   reps: 'sales_representatives.json',
   customers: 'customers_main.json',
@@ -31,14 +33,12 @@ async function populateForm() {
 
   productsList = products;
 
-  // تعبئة التصنيفات
+  // التصنيفات
   const categories = [...new Set(products.map(p => p.Category))];
   const categorySection = document.getElementById('categorySelection');
   categories.forEach(cat => {
     const div = document.createElement('div');
-    div.innerHTML = `
-      <label><input type="checkbox" value="${cat}"> ${cat}</label>
-    `;
+    div.innerHTML = `<label><input type="checkbox" value="${cat}"> ${cat}</label>`;
     categorySection.appendChild(div);
   });
 
@@ -67,23 +67,21 @@ async function populateForm() {
     document.getElementById('Visit_Type_ID').append(option);
   });
 
-  // الغرض
+  // الأغراض
   purposes.forEach(p => {
-    const option = new Option(p.Visit_Purpose, p.Visit_Purpose);
+    const option = new Option(p, p);
     document.getElementById('Visit_Purpose').append(option);
   });
 
-  // النتيجة
+  // النتائج
   outcomes.forEach(o => {
-    const option = new Option(o.Visit_Outcome, o.Visit_Outcome);
+    const option = new Option(o, o);
     document.getElementById('Visit_Outcome').append(option);
   });
 }
 
 function showProductsBySelectedCategories() {
-  const selectedCategories = Array.from(document.querySelectorAll('#categorySelection input[type="checkbox"]:checked'))
-    .map(cb => cb.value);
-
+  const selectedCategories = Array.from(document.querySelectorAll('#categorySelection input[type="checkbox"]:checked')).map(cb => cb.value);
   const container = document.getElementById('productsContainer');
   container.innerHTML = '';
 
@@ -98,8 +96,8 @@ function showProductsBySelectedCategories() {
       item.className = 'product-item';
       item.innerHTML = `
         <label>${p.Product_Name_AR}</label>
-        <input type="radio" name="${p.Product_ID}" value="available"> متوفر
-        <input type="radio" name="${p.Product_ID}" value="unavailable"> غير متوفر
+        <input type="radio" name="${p.Product_Name_AR}" value="available"> متوفر
+        <input type="radio" name="${p.Product_Name_AR}" value="unavailable"> غير متوفر
       `;
       group.appendChild(item);
     });
@@ -108,21 +106,24 @@ function showProductsBySelectedCategories() {
   });
 }
 
-populateForm();
+function getText(id) {
+  const el = document.querySelector(`#${id} option[value="${document.getElementById(id).value}"]`);
+  return el?.textContent || '';
+}
 
 document.getElementById('visitForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const data = {
     Visit_ID: 'VISIT-' + Date.now(),
-    Customer_ID: document.getElementById('Customer_ID').value,
-    Sales_Rep_ID: document.getElementById('Sales_Rep_ID').value,
+    Customer_Name_AR: getText('Customer_ID'),
+    Sales_Rep_Name_AR: getText('Sales_Rep_ID'),
     Product_Name_AR: document.getElementById('Product_Name_AR').value || '',
     Visit_Purpose: document.getElementById('Visit_Purpose').value,
     Visit_Outcome: document.getElementById('Visit_Outcome').value,
     Next_Visit_Date: document.getElementById('Next_Visit_Date').value || '',
     Notes: document.getElementById('Notes').value || '',
-    Visit_Type_ID: document.getElementById('Visit_Type_ID').value,
+    Visit_Type_Name_AR: getText('Visit_Type_ID'),
     Entry_User_Name: document.getElementById('Entry_User_Name').value,
     Customer_Type: document.getElementById('Customer_Type').value
   };
@@ -141,24 +142,23 @@ document.getElementById('visitForm').addEventListener('submit', async (e) => {
     else unavailable.push(r.name);
   });
 
-  // تحقق أن كل منتج ظاهر تم تحديد حالته
   const totalVisibleProducts = document.querySelectorAll('#productsContainer input[type="radio"]');
-  const totalGrouped = Array.from(totalVisibleProducts).reduce((acc, input) => {
-    acc[input.name] = acc[input.name] ? acc[input.name] + 1 : 1;
+  const groupedNames = Array.from(totalVisibleProducts).reduce((acc, input) => {
+    acc[input.name] = true;
     return acc;
   }, {});
-  const allCheckedNames = Array.from(selectedRadios).map(r => r.name);
-  const missed = Object.keys(totalGrouped).filter(name => !allCheckedNames.includes(name));
+  const checkedNames = new Set(Array.from(selectedRadios).map(r => r.name));
+  const missed = Object.keys(groupedNames).filter(name => !checkedNames.has(name));
+
   if (missed.length > 0) {
     alert('⚠️ يجب تحديد الحالة لكل منتج ظاهر.');
     return;
   }
 
-  // ترتيب البيانات حسب الأعمدة
   const row = [
     data.Visit_ID,
-    getText('Customer_ID'),
-    getText('Sales_Rep_ID'),
+    data.Customer_Name_AR,
+    data.Sales_Rep_Name_AR,
     data.Product_Name_AR,
     Visit_Date,
     Visit_Time,
@@ -166,7 +166,7 @@ document.getElementById('visitForm').addEventListener('submit', async (e) => {
     data.Visit_Outcome,
     data.Next_Visit_Date,
     data.Notes,
-    getText('Visit_Type_ID'),
+    data.Visit_Type_Name_AR,
     available.join(','),
     unavailable.join(','),
     data.Entry_User_Name,
@@ -202,7 +202,4 @@ document.getElementById('visitForm').addEventListener('submit', async (e) => {
   }
 });
 
-function getText(id) {
-  const el = document.querySelector(`#${id} option[value="${document.getElementById(id).value}"]`);
-  return el?.textContent || '';
-}
+populateForm();
