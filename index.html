@@ -37,17 +37,13 @@
         <option value="عام">عام</option>
       </select>
 
-      <label>التصنيفات المستهدفة (يمكن اختيار أكثر من واحد):</label>
-      <div id="categoryOptions">
-        <!-- يتم تعبئة التصنيفات تلقائيًا -->
-      </div>
+      <label>التصنيفات المستهدفة:</label>
+      <div id="categoryOptions"></div>
 
-      <div id="products-section">
-        <!-- يتم عرض المنتجات حسب التصنيفات المختارة -->
-      </div>
+      <div id="products-section"></div>
 
       <label for="mainProduct">المنتج الرئيسي (اختياري):</label>
-      <input type="text" id="mainProduct" placeholder="اكتب اسم المنتج إن وُجد">
+      <input type="text" id="mainProduct">
 
       <label for="purpose">الغرض من الزيارة:</label>
       <select id="purpose" required></select>
@@ -55,8 +51,8 @@
       <label for="outcome">نتيجة الزيارة:</label>
       <select id="outcome" required></select>
 
-      <label for="notes">ملاحظات إضافية (اختياري):</label>
-      <textarea id="notes" rows="4"></textarea>
+      <label for="notes">ملاحظات إضافية:</label>
+      <textarea id="notes" rows="3"></textarea>
 
       <button type="submit">إرسال البيانات</button>
     </form>
